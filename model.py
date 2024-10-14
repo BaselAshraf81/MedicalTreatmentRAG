@@ -1,17 +1,29 @@
+# model.py
 
-from langchain.agents import initialize_agent, AgentExecutor
+import os
+import re
+import fitz  # PyMuPDF
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.vectorstores import Chroma
+from langchain.docstore.document import Document
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+from langchain.prompts import ChatPromptTemplate
+from langchain.chains import RetrievalQA, create_retrieval_chain
 from langchain.memory import ConversationBufferMemory
-from langchain.chains.combine_documents import create_stuff_documents_chain
+import torch
+import gc
 
+# Save the Hugging Face token (ensure this is handled securely in production)
+from huggingface_hub.hf_api import HfFolder
+HfFolder.save_token('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')
 
 def extract_text_from_pdf(pdf_path):
     doc = fitz.open(pdf_path)
     text = ""
-
-def extract_text_from_pdf(pdf_path):
-    text += page.get_text()
+    for page in doc:
+        text += page.get_text()
     return text
-    
+
 def preprocess_text(text):
     # Replace line breaks followed by bullets with spaces
     processed_text = re.sub(r'\n•\n', ' • ', text)
@@ -41,14 +53,17 @@ def format_text(formatted_text):
     output = ""
     for section, items in formatted_text.items():
         output += f"### {section}\n\n"
-
-@@ -70,54 +50,124 @@ def process_text(text):
-    output = format_text(formatted_text)
+        for item in items:
+            if item.strip():
+                output += f"- {item.strip()}\n"
+        output += "\n"
     return output
 
-
-
-
+def process_text(text):
+    processed_text = preprocess_text(text)
+    formatted_text = split_sections(processed_text)
+    output = format_text(formatted_text)
+    return output
 
 def initialize_chain(diagnostic_path, doctors_recom):
     # Extract and process texts
@@ -160,10 +175,10 @@ def initialize_chain(diagnostic_path, doctors_recom):
         ]
     )
 
-    question_answer_chain = create_stuff_documents_chain(llm, prompt)
-    rag_chain = create_retrieval_chain(retriever, question_answer_chain)
+    # Initialize the retrieval chain
+    retrieval_chain = create_retrieval_chain(llm, retriever, prompt=prompt)
 
-    return rag_chain
+    return retrieval_chain
 
 # Initialize the chain (this can be called once when the app starts)
 def get_chain():
