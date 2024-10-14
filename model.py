@@ -10,7 +10,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmb
 from langchain.prompts import ChatPromptTemplate
 from langchain.chains import RetrievalQA, create_retrieval_chain
 from langchain.memory import ConversationBufferMemory
-import torch
+
 import gc
 
 # Save the Hugging Face token (ensure this is handled securely in production)
