@@ -8,7 +8,7 @@ from langchain.chains import create_retrieval_chain  # Updated import
 from langchain.docstore.document import Document
 import os
 import fitz
-
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 # Import your previously defined functions
 from model import extract_text_from_pdf, preprocess_text, split_sections, format_text, process_text
 
