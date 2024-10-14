@@ -1,4 +1,7 @@
+import os
 
+# Set the environment variable
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 import streamlit as st
 from model import get_chain
 
