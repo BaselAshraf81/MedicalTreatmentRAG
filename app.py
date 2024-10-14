@@ -6,7 +6,7 @@ import os
 # Function to set environment variables
 def set_environment_variables():
     os.environ["GOOGLE_API_KEY"] = 'AIzaSyBadUb2oZd7KjS8eY6XH8-AbMhO48nEs0g'
-    os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = 'python'
+    os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = python
     return os.environ["GOOGLE_API_KEY"], os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"]
 
 @st.cache_resource
