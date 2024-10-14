@@ -3,8 +3,6 @@
 import streamlit as st
 from model import get_chain
 
-import os
-os.environ['STREAMLIT_SERVER_HEADLESS'] = 'true'
 
 
 # Initialize the QA chain
