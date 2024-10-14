@@ -9,7 +9,7 @@ def extract_text_from_pdf(pdf_path):
     text = ""
 
 def extract_text_from_pdf(pdf_path):
-        text += page.get_text()
+    text += page.get_text()
     return text
     
 def preprocess_text(text):
