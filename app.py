@@ -1,8 +1,11 @@
+
 import streamlit as st
 from model import get_chain
 
 
 
+# Initialize the QA chain
+@st.cache_resource
 def load_chain():
     chain = get_chain()
     return chain
