@@ -29,8 +29,8 @@ def extract_text_from_pdf(pdf_path):
 os.environ["GOOGLE_API_KEY"] = 'AIzaSyBadUb2oZd7KjS8eY6XH8-AbMhO48nEs0g'
 
 # PDF paths
-diagnostic_path = '/content/Dataset.pdf'
-doctors_recom = '/content/final_organized_doctors_list.pdf'
+diagnostic_path = 'Dataset.pdf'
+doctors_recom = 'final_organized_doctors_list.pdf'
 
 # Extract text from PDFs
 pdf_diagnostic = extract_text_from_pdf(diagnostic_path)
