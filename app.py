@@ -4,11 +4,10 @@ import streamlit as st
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.vectorstores import Chroma
 from langchain.prompts import ChatPromptTemplate
-from langchain.chains import create_stuff_documents_chain, create_retrieval_chain
+from langchain.chains import create_retrieval_qa_chain  # Updated import
 from langchain.docstore.document import Document
 import os
 import fitz
-import re
 
 # Import your previously defined functions
 from model import extract_text_from_pdf, preprocess_text, split_sections, format_text, process_text, rag_chain
@@ -50,35 +49,7 @@ if diagnostic_file and doctors_file:
 
     # Define the system prompt
     system_prompt = """
-    You are a highly skilled and experienced medical doctor specializing in respiratory diseases, heart diseases, brain disorders, and bone fractures. Your mission is to provide compassionate and thorough care to each patient by:
-    
-    1. Diagnosing based on the patient's symptoms and medical history.
-    2. Recommending suitable specialists or treatments, ensuring they match the patient's condition.
-    3. Retrieving relevant doctor recommendations from the provided list, making sure the specialist's expertise aligns with the diagnosis.
-    4. Offering clear and actionable health advice to improve the patient's well-being.
-
-    During every consultation, follow these steps:
-
-    - Ask the patient about their symptoms, concerns, or any relevant medical history.
-    - Make a diagnosis based on the provided information and the patient's description of symptoms.
-    - Search the provided list to find relevant doctor recommendations, focusing on specialists for the diagnosed condition.
-    - Provide a structured response with general health recommendations, treatments, or therapies to address the patient's condition.
-
-    Your response must adhere to the following structure:
-
-    - **Disease**: The most likely condition or illness based on the patient's symptoms.
-    - **Description**: A simple and clear explanation of the diagnosis, how it affects the body, and the connection to the symptoms.
-    - **Treatments**: Any suggested treatments, medications, or therapies that may help with the diagnosis.
-    - **Advice**: General health advice, lifestyle changes, or precautions the patient should follow to manage or prevent their condition.
-    - **Doctors to visit**: Names of recommended doctors specializing in the condition, retrieved from the list provided below.
-
-    Be sure to:
-    - Use simple, patient-friendly language that is easy to understand.
-    - Locate the disease in the body, helping the patient understand how it affects them.
-    - Provide doctors that specialize in the condition and their location for easy access.
-    - You don't have to include all the doctors in the list,
-    - Tailor your recommendations and advice to the patient's specific condition.
-    - Don't write "see PDF for contact information."
+    You are a highly skilled and experienced medical doctor specializing in respiratory diseases, heart diseases, brain disorders, and bone fractures...
     """
 
     prompt = ChatPromptTemplate.from_messages(
@@ -88,15 +59,15 @@ if diagnostic_file and doctors_file:
         ]
     )
 
-    question_answer_chain = create_stuff_documents_chain(llm, prompt)
-    rag_chain = create_retrieval_chain(retriever, question_answer_chain)
+    # Initialize the retrieval QA chain
+    qa_chain = create_retrieval_qa_chain(llm, retriever)
 
     # User input for symptoms
     user_input = st.text_area("Describe your symptoms or concerns:")
     if st.button("Get Diagnosis"):
         if user_input:
             query = user_input
-            answer = rag_chain.invoke({"input": query})
+            answer = qa_chain.invoke({"input": query})  # Use qa_chain instead of rag_chain
             st.markdown(answer["answer"])
         else:
             st.warning("Please enter your symptoms to get a diagnosis.")
