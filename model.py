@@ -1,17 +1,18 @@
-
-# Import necessary libraries
-import os
-import re
-import fitz  # PyMuPDF
+import fitz
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
 from langchain.docstore.document import Document
-from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
-from langchain.chains import RetrievalQA, create_retrieval_chain
+from langchain.chains import RetrievalQA
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.agents import initialize_agent, AgentExecutor
+from langchain.agents.agent_types import AgentType
+from langchain.agents import AgentExecutor, initialize_agent
 from langchain.memory import ConversationBufferMemory
+from langchain.tools import BaseTool, StructuredTool, tool
+import torch
+import gc
 
 # Save the Hugging Face token
 from huggingface_hub.hf_api import HfFolder
