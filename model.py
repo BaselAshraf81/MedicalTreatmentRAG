@@ -11,7 +11,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.chains import RetrievalQA, create_retrieval_chain
 from langchain.memory import ConversationBufferMemory
 import getpass
-os.environ["GOOGLE_API_KEY"] = 'AIzaSyBadUb2oZd7KjS8eY6XH8-AbMhO48nEs0g'
+#os.environ["GOOGLE_API_KEY"] = 'AIzaSyBadUb2oZd7KjS8eY6XH8-AbMhO48nEs0g'
 import gc
 
 # Save the Hugging Face token (ensure this is handled securely in production)
