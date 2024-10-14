@@ -15,13 +15,6 @@ import subprocess
 
 from huggingface_hub.hf_api import HfFolder
 os.environ["GOOGLE_API_KEY"] = 'AIzaSyBadUb2oZd7KjS8eY6XH8-AbMhO48nEs0g'
-os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = 'python'
-env = os.environ.copy()
-env["GOOGLE_API_KEY"] = 'AIzaSyBadUb2oZd7KjS8eY6XH8-AbMhO48nEs0g'
-env["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = 'python'
-
-# Now run a command in this modified environment
-subprocess.run("echo $GOOGLE_API_KEY; echo $PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION", shell=True, env=env)
 
 # Save the Hugging Face token
 HfFolder.save_token('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')
