@@ -13,6 +13,7 @@ from langchain.memory import ConversationBufferMemory
 from langchain.tools import BaseTool, StructuredTool, tool
 import gc
 import os
+import re
 # Save the Hugging Face token
 from huggingface_hub.hf_api import HfFolder
 HfFolder.save_token('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')
