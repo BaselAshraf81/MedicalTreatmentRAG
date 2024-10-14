@@ -4,13 +4,13 @@ import streamlit as st
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.vectorstores import Chroma
 from langchain.prompts import ChatPromptTemplate
-from langchain.chains import create_retrieval_qa_chain  # Updated import
+from langchain.chains import create_retrieval_chain  # Updated import
 from langchain.docstore.document import Document
 import os
 import fitz
 
 # Import your previously defined functions
-from model import extract_text_from_pdf, preprocess_text, split_sections, format_text, process_text, rag_chain
+from model import extract_text_from_pdf, preprocess_text, split_sections, format_text, process_text
 
 # Set up Streamlit app
 st.title("Medical Consultation Chatbot")
@@ -49,7 +49,8 @@ if diagnostic_file and doctors_file:
 
     # Define the system prompt
     system_prompt = """
-    You are a highly skilled and experienced medical doctor specializing in respiratory diseases, heart diseases, brain disorders, and bone fractures...
+    You are a highly skilled and experienced medical doctor specializing in respiratory diseases, heart diseases, brain disorders, and bone fractures. 
+    Your job is to provide accurate diagnosis and treatment recommendations based on the symptoms described by the patient.
     """
 
     prompt = ChatPromptTemplate.from_messages(
@@ -59,15 +60,15 @@ if diagnostic_file and doctors_file:
         ]
     )
 
-    # Initialize the retrieval QA chain
-    qa_chain = create_retrieval_qa_chain(llm, retriever)
+    # Initialize the retrieval chain
+    retrieval_chain = create_retrieval_chain(llm, retriever)
 
     # User input for symptoms
     user_input = st.text_area("Describe your symptoms or concerns:")
     if st.button("Get Diagnosis"):
         if user_input:
             query = user_input
-            answer = qa_chain.invoke({"input": query})  # Use qa_chain instead of rag_chain
+            answer = retrieval_chain.invoke({"input": query})  # Use retrieval_chain for query
             st.markdown(answer["answer"])
         else:
             st.warning("Please enter your symptoms to get a diagnosis.")
