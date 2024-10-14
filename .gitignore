@@ -131,7 +131,7 @@ env.bak/
 venv.bak/
 __pycache__/
 *.pyc
-.env
+
 model.pkl
 
 # Spyder project settings
