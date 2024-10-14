@@ -11,7 +11,6 @@ from langchain.agents.agent_types import AgentType
 from langchain.agents import AgentExecutor, initialize_agent
 from langchain.memory import ConversationBufferMemory
 from langchain.tools import BaseTool, StructuredTool, tool
-import torch
 import gc
 
 # Save the Hugging Face token
