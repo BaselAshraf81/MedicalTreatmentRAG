@@ -12,7 +12,6 @@ from langchain.chains import RetrievalQA, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.agents import initialize_agent, AgentExecutor
 from langchain.memory import ConversationBufferMemory
-import torch
 
 def extract_text_from_pdf(pdf_path):
     doc = fitz.open(pdf_path)
