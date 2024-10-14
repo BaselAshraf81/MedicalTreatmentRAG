@@ -3,11 +3,15 @@ from model import get_chain
 import subprocess
 import os
 
-# Function to set environment variables
-def set_environment_variables():
-    os.environ["GOOGLE_API_KEY"] = 'AIzaSyBadUb2oZd7KjS8eY6XH8-AbMhO48nEs0g'
-    os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = python
-    return os.environ["GOOGLE_API_KEY"], os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"]
+# Function to run bash commands to export environment variables
+def export_environment_variables():
+    try:
+        # Run export commands as bash commands
+        subprocess.run("export GOOGLE_API_KEY='AIzaSyBadUb2oZd7KjS8eY6XH8-AbMhO48nEs0g'", shell=True, executable="/bin/bash")
+        subprocess.run("export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION='python'", shell=True, executable="/bin/bash")
+        st.success("Environment variables set successfully in the bash shell.")
+    except Exception as e:
+        st.error(f"An error occurred while setting environment variables: {e}")
 
 @st.cache_resource
 def load_chain():
@@ -21,10 +25,7 @@ def main():
 
     # Button to set environment variables
     if st.button("Set Environment Variables"):
-        google_api_key, protocol_buffers_impl = set_environment_variables()
-        st.success("Environment variables set successfully!")
-        st.write(f"GOOGLE_API_KEY: {google_api_key}")
-        st.write(f"PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: {protocol_buffers_impl}")
+        export_environment_variables()
 
     user_input = st.text_area("Enter your symptoms or concerns:")
 
