@@ -1,3 +1,6 @@
+import subprocess
+subprocess.run(["python", "test.py"])
+
 import os
 import re
 import fitz  # PyMuPDF
