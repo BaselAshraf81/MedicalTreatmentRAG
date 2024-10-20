@@ -1,6 +1,9 @@
+import subprocess
+subprocess.run(["python", "test.py"])
+
 import streamlit as st
 from model import get_chain
-import subprocess
+
 import os
 os.environ["GOOGLE_API_KEY"] = 'AIzaSyBadUb2oZd7KjS8eY6XH8-AbMhO48nEs0g'
 
@@ -12,8 +15,7 @@ def load_chain():
 def main():
     subprocess.run("export GOOGLE_API_KEY='AIzaSyBadUb2oZd7KjS8eY6XH8-AbMhO48nEs0g'", shell=True, executable="/bin/bash")
 
-    # Now, you can access the variable in your script
-    api_key = os.getenv("GOOGLE_API_KEY")
+
     st.title("Medical Consultation AI")
     st.write("Ask your medical questions and receive expert advice.")
 
